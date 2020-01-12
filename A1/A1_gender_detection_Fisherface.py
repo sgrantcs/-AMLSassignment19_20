@@ -4,6 +4,9 @@ Created on Sat Jan 11 19:08:48 2020
 Copy of the notebook with the same name with .ipynb extension
 
 @author: sgrant
+parts of the code (e.g. training and prediction were adapted from the code published by
+Paul vanGent in his post "Emotion Recognition With Python, OpenCV and a Face Dataset", 1 April 2016 
+http://www.paulvangent.com/2016/04/01/emotion-recognition-with-python-opencv-and-a-face-dataset/)
 """
 import cv2
 import os
@@ -14,25 +17,29 @@ import random
  
 #create basedir, image_paths, create labels file
 basedir = '../Datasets/celeba'
+data_dir = os.environ['BASEDIR']
+if data_dir != None: 
+    basedir = data_dir
 images_dir = os.path.join(basedir,'img')
 labels_filename = 'labels.csv'
-correct_labels = dict()
+correct_labels = dict() #create dict for correct labels
 
 #read the labels file and write the data into the new labels list called 'correct_labels'
-with open('../Datasets/celeba/labels.csv', 'r') as file:
+with open(os.path.join(basedir, 'labels.csv'), 'r') as file:
     reader = csv.reader(file, delimiter = '\t')
     next(reader)
     for row in reader:
         correct_labels[row[1]] = row
     #print(correct_labels)
 
+#read JPG images into the image_filelist list:
 filelist = os.listdir(images_dir)
 image_filelist = []
 for file in filelist:
     if file.lower().endswith('.jpg'):
         image_filelist.append(file)
 
-#use Haar cascade filters for face detection
+#use Haar cascade filters for face detection. Several filters are used to improve detection accuracy.
 face_detectors = [ cv2.CascadeClassifier("haarcascade_frontalface_default.xml"),
                   cv2.CascadeClassifier("haarcascade_frontalface_alt2.xml"),
                   cv2.CascadeClassifier("haarcascade_frontalface_alt.xml"),
@@ -43,7 +50,7 @@ def detect_face(image_file):
 
     frame = cv2.imread(image_file) #Open image
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) #Convert image to grayscale
-    clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8)) #Normalise histogram
+    clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8,8)) #Normalise histogram to improve contrast
     
     #Detect face by going through different classifiers. 
     detected_face = []
@@ -118,7 +125,7 @@ for item, image in prediction_data:
             correct += 1 #If correct match, increment correct counter.
 
             #create smiles_output file for prediction analysis:
-with open('../Datasets/celeba/smiles_output.csv', 'w', newline='') as outfile: 
+with open(os.path.join(basedir, 'smiles_output.csv'), 'w', newline='') as outfile: 
     writer = csv.writer(outfile, delimiter = ',')
     writer.writerow(['img_name', 'correct_gender', 'predicted_gender'])
     label_index = 0
