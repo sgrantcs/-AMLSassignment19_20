@@ -1,7 +1,8 @@
 # README
 
 AMLS Term 1 Project description: 
-1. The following libraries were used for the four tasks: 
+### Libraries
+The following libraries were used for the four tasks: 
 os, cv2, csv, dlib, NumPy 
 OS - for file manipulation 
 cv2 - for image operations and running DNN model, and CSV for labels file manipulation
@@ -12,10 +13,11 @@ sklearn.model_selection - for train_test_split function
 The SVM was implemented using Scikit-learn library. sklearn library was used to import svm, 
 sklearn.svm was used to download SVC model (Linear kernel was used).
 
-2. Other requirements for running the models:
+### Other required files 
+Other requirements for running the models:
 Open framework caffemodel was used for gender detection CNN. 
 The caffe model and the Prototxt file can be downloaded from Tal Hassner's web site: https://talhassner.github.io/home/publication/2015_CVPR
-Haar Cascades were used for face detection. 
+Haar Cascades were used for face detection; these are availabel for download from OpenCV Docs: <https://docs.opencv.org/master/>
 
 2. AMLS Project File Organisation: 
 $ -- AMLS_19-20_SN19132626
@@ -42,9 +44,11 @@ README.md (this file)
 |--|--haarcascade_profileface.xml
 |--B1
 |--|--B1_SVM_classification.ipynb
+|--|--B1_SVM_classification.py
 |--|--shape_predictor_68_face_landmarks.dat
 |--B2
 |--|--B2_EyeColor_model.ipynb
+|--|--B2_EyeColor_model.py
 |--Datasets
 |--|--cartoon_set
 |--|--|--img[10,000 images] 
@@ -52,6 +56,5 @@ README.md (this file)
 |--|--celeba
 |--|--|--img[5,000 images]
 |--|--|--labels.csv
-
 
 
